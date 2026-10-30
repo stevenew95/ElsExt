@@ -221,7 +221,7 @@ The output is written to `bin\ElsExt.asi`. The module links the C runtime static
 powershell -File tools\package.ps1 -Version 1.0.0
 ```
 
-Builds `release\ElsExt-1.0.0.zip` containing `ElsExt.asi`, `ElsExt.ini`, `Installation and Setup.txt`, `examples\example.xml` and `LICENSE.txt`.
+Builds `release\ElsExt-1.0.0.zip` containing `ElsExt.asi`, `ElsExt.ini`, `Installation and Setup.txt`, `examples\example.xml`, `LICENSE.txt` and `THIRD_PARTY_NOTICES.txt`.
 
 ### Verification tools
 
@@ -296,7 +296,7 @@ All messages are written to `ElsExt.log` in the game installation folder. The fi
 
 ElsExt is released under the MIT License. See [LICENSE](LICENSE). The copyright notice and permission notice must be retained in all copies and in all modified or derived versions.
 
-`LICENSE` also contains the notices for the bundled third-party components. Include the file with every source and binary distribution.
+The notices for the bundled third-party components are in [THIRD_PARTY_NOTICES.txt](THIRD_PARTY_NOTICES.txt). Include both files with every source and binary distribution.
 
 ## Acknowledgements
 

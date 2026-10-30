@@ -18,6 +18,7 @@ Copy-Item (Join-Path $root 'ElsExt.ini') $stage
 Copy-Item (Join-Path $root 'package\Installation and Setup.txt') $stage
 Copy-Item (Join-Path $root 'examples\example.xml') (Join-Path $stage 'examples')
 Copy-Item (Join-Path $root 'LICENSE') (Join-Path $stage 'LICENSE.txt')
+Copy-Item (Join-Path $root 'THIRD_PARTY_NOTICES.txt') $stage
 
 Compress-Archive -Path (Join-Path $stage '*') -DestinationPath $zip
 Write-Output "Created $zip"

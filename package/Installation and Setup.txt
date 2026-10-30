@@ -104,4 +104,5 @@ ELS by Lt.Caine, with LMS and Sam. ELS is not included.
 ScriptHookV by Alexander Blade.
 MinHook by Tsuda Kageyu.
 
-ElsExt is released under the MIT License. See LICENSE.txt.
+ElsExt is released under the MIT License. See LICENSE.txt, and THIRD_PARTY_NOTICES.txt
+for the bundled components.
