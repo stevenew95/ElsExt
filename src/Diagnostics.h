@@ -14,7 +14,6 @@ namespace diag
 
     void SetLastVehicle(int32_t vehicle);
 
-    // Counts one ELS lighting pass and returns its number.
     long CountLightingPass();
     long LightingPasses();
 
