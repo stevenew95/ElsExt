@@ -24,8 +24,10 @@ ElsExt operates entirely in memory. It does not modify, replace or redistribute 
 
 | Feature | Description |
 |---|---|
-| Park patterns | Each vehicle model may define the pattern shown by each light group while the vehicle is stationary with its lights on. The park pattern replaces the ELS `OutOfVeh` pattern and the active stage preset. Horn and siren-tone patterns retain precedence. |
-| Synchronisation | Parked vehicles belonging to the same sync group, and within range of one another, flash in step. ElsExt aligns pattern timing only and never changes the pattern a vehicle displays. Vehicles in a group must therefore share the same park patterns to appear synchronised. |
+| Park patterns | Each vehicle model may define the pattern shown by each light group while the vehicle is [parked](#parked-vehicles). The park pattern replaces the ELS `OutOfVeh` pattern and the active stage preset. Horn and siren-tone patterns retain precedence. |
+| Synchronisation | [Parked](#parked-vehicles) vehicles belonging to the same sync group, and within range of one another, flash in step. ElsExt aligns pattern timing only and never changes the pattern a vehicle displays. Vehicles in a group must therefore share the same park patterns to appear synchronised. |
+
+Both features apply whether the driver is in the vehicle or not.
 
 ### AI vehicle control
 
@@ -77,7 +79,7 @@ Global settings are read from `ElsExt.ini` in the game installation folder. If t
 |---|---|---|---|---|
 | `Park` | `Enabled` | `1` | `0`, `1` | Enables park patterns. |
 | `Park` | `PlayerCar` | `1` | `0`, `1` | Applies park patterns to the vehicle the player is driving. |
-| `Park` | `DelaySeconds` | `2` | `0` to `600` | Time a vehicle must remain stationary before its park pattern starts. |
+| `Park` | `DelaySeconds` | `2` | `0` to `600` | Time a vehicle must remain stationary before it counts as parked. Applies to park patterns and synchronisation. |
 | `Sync` | `Enabled` | `1` | `0`, `1` | Enables synchronisation. |
 | `Sync` | `PlayerCar` | `1` | `0`, `1` | Includes the vehicle the player is driving. |
 | `Sync` | `RadiusMetres` | `60` | `1` to `1000` | Maximum distance between synchronised vehicles. |
@@ -96,15 +98,21 @@ Per-model behaviour is defined in an `<EXT>` element inside the `<vcfroot>` elem
 </EXT>
 ```
 
+### Parked vehicles
+
+Park patterns and synchronisation apply to parked vehicles. A vehicle is parked once it has been stationary (below 0.3 m/s) with its emergency lights on for the park delay: the model's `Delay`, or `DelaySeconds` in `ElsExt.ini`. It stops being parked as soon as it moves faster than 1.5 m/s.
+
+A parked vehicle may have its driver in the seat or not. The driver's position affects only which light stages a park pattern can show at; see `<Park>` below.
+
 ### `<Park>`
 
 | Attribute | Type | Description |
 |---|---|---|
 | `Prml`, `Secl`, `Wrnl` | Pattern number, `0` to `999` | Pattern for the corresponding light group. Omit an attribute to leave that group unchanged. |
-| `Delay` | Seconds, `0` to `600` | Overrides `DelaySeconds` for this model. |
+| `Delay` | Seconds, `0` to `600` | Overrides `DelaySeconds` for this model. Also sets when this model starts synchronising. |
 | `Enabled` | `true`, `false` | Disables the element when `false`. Default `true`. |
 
-While the driver is seated, a park pattern applies only at light stages for which ELS defines a preset for that group:
+A parked vehicle with the driver seated shows its park pattern only at light stages for which ELS defines a preset for that group:
 
 | Light group | Stages |
 |---|---|
@@ -112,13 +120,13 @@ While the driver is seated, a park pattern applies only at light stages for whic
 | SECL | 1, 2, 3 |
 | WRNL | 3 |
 
-While the driver's seat is empty, park patterns apply at every stage.
+With the driver's seat empty, the park pattern shows at every stage.
 
 ### `<Sync>`
 
 | Attribute | Type | Description |
 |---|---|---|
-| `Group` | Text, case-insensitive | Models with the same group name synchronise with each other. When omitted, the model synchronises only with vehicles of the same model. |
+| `Group` | Text, case-insensitive | Parked vehicles of models with the same group name synchronise with each other. When omitted, the model synchronises only with vehicles of the same model. |
 | `Radius` | Metres, `1` to `1000` | Overrides `RadiusMetres` for this model. Where two vehicles specify different values, the smaller applies. |
 | `Enabled` | `true`, `false` | Disables the element when `false`. Default `true`. |
 
