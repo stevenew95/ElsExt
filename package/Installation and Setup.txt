@@ -1,0 +1,107 @@
+ElsExt 1.0.0
+Add-on for Emergency Lighting System V (ELS) 1.05
+https://github.com/stevenew95/ElsExt
+
+
+WHAT YOU NEED
+-------------
+- GTA V (PC, Legacy edition; ELS itself doesn't run on Enhanced)
+- ScriptHookV
+- ELS 1.05, already installed and working
+
+ElsExt checks your ELS version when the game starts. On anything other than 1.05 it stays off and
+writes the reason to ElsExt.log, so it can't break a different ELS build.
+
+
+INSTALLING
+----------
+1. Close the game.
+2. Copy ElsExt.asi and ElsExt.ini into your GTA V folder, the one with GTA5.exe and ELS.asi in it.
+3. Start the game and load into story mode.
+4. Open ElsExt.log in the same folder. You should see a line ending in "Extension active."
+
+Nothing else needs installing. ElsExt doesn't touch ELS.asi or any of your ELS files on disk.
+
+
+SETTING UP YOUR CARS
+--------------------
+Park patterns and sync are set per car model, in each car's ELS file
+(ELS\pack_default\<model>.xml, or whichever pack ELS.ini points to).
+
+Open examples\example.xml for a ready-made block with every option explained. Copy the <EXT> part
+into your car's file, inside <vcfroot>, after the existing sections. It looks like this:
+
+    <EXT>
+        <Park Prml="32" Secl="32" Wrnl="2" Delay="2" />
+        <Sync Group="LSPD" Radius="60" />
+    </EXT>
+
+Park
+    The pattern each light group (PRML, SECL, WRNL) switches to once the car is parked. Use the
+    same pattern numbers you'd use anywhere else in an ELS file. Leave one out and that group
+    keeps its normal pattern.
+
+    "Parked" means the car has been stopped with its lights on for Delay seconds. The driver can
+    stay in the car. When the car moves off, the normal patterns come back.
+
+    One limit with the driver still inside: ELS only lets a park pattern show at light stages
+    that have a preset for that group. In practice that's stage 3 for everything, plus SECL at
+    stages 1 and 2 and PRML at stage 2. Once the driver gets out it works at every stage.
+
+Sync
+    Parked cars with the same Group name flash in step if they're within Radius metres of each
+    other. Use one group per agency, and give every car in the group the same Park patterns,
+    because sync only lines up the timing. It never changes which pattern a car is showing.
+
+You don't need both lines. A car can have Park without Sync, or the other way round. A car with
+no <EXT> block behaves exactly like it always has.
+
+Save the file and restart the game. ElsExt.log lists every model it found an <EXT> block for, so
+you can check your edit was picked up.
+
+
+ELSEXT.INI
+----------
+The file has comments, but in short:
+
+    [Park] Enabled        Turn park patterns on or off for everyone.
+    [Park] PlayerCar      Whether your own car uses park patterns.
+    [Park] DelaySeconds   Default delay before a car counts as parked (a car's Delay overrides it).
+    [Sync] Enabled        Turn sync on or off.
+    [Sync] PlayerCar      Whether your own car takes part in sync.
+    [Sync] RadiusMetres   Default sync distance (a car's Radius overrides it).
+
+
+IF SOMETHING'S WRONG
+--------------------
+Everything ElsExt does is written to ElsExt.log in your GTA V folder. The most common lines:
+
+    ELS.asi is not loaded                 ELS isn't installed, or it failed to load on its own.
+    ELS.asi is not V 1.05                 You're on a different ELS version.
+    ELS.asi differs from V 1.05 at ...    Something else has modified ELS.asi.
+    <file>: followed by a list            That vehicle file is missing settings ELS needs. ELS
+                                          can fail to load until they're added.
+
+If you still need help, post a comment on the download page with your ElsExt.log and ELS.log,
+and say what you were doing when it went wrong.
+
+
+REMOVING IT
+-----------
+Delete ElsExt.asi and ElsExt.ini. You can leave the <EXT> blocks in your car files; ELS ignores
+them.
+
+
+DEVELOPERS
+----------
+ElsExt has a small C API for controlling AI sirens and lights from your own plugin. The reference,
+examples and source code are on GitHub: https://github.com/stevenew95/ElsExt/wiki
+
+
+CREDITS
+-------
+ELS by Lt.Caine, with LMS and Sam. ELS is not included.
+ScriptHookV by Alexander Blade.
+MinHook by Tsuda Kageyu.
+
+ElsExt is released under the MIT License. See LICENSE.txt.

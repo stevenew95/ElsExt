@@ -56,7 +56,7 @@ Third-party modifications can control the following for any AI-driven vehicle th
 
 | Component | Version |
 |---|---|
-| Grand Theft Auto V | PC |
+| Grand Theft Auto V | PC, Legacy edition (ELS does not run on Enhanced) |
 | ScriptHookV | Current release for the installed game version |
 | Emergency Lighting System V | 1.05 |
 
@@ -88,7 +88,7 @@ Values outside the stated range are ignored and the default is used.
 
 ## Vehicle Configuration Reference
 
-Per-model behaviour is defined in an `<EXT>` element inside the `<vcfroot>` element of the model's ELS configuration file (`ELS\<pack>\<model>.xml`). ELS ignores this element. Files without it are unaffected. [examples/example.xml](examples/example.xml) is a complete vehicle file with every `<EXT>` option filled in and commented.
+Per-model behaviour is defined in an `<EXT>` element inside the `<vcfroot>` element of the model's ELS configuration file (`ELS\<pack>\<model>.xml`). ELS ignores this element. Files without it are unaffected. [examples/example.xml](examples/example.xml) shows where the block goes, with every option commented. Full documentation is in the [wiki](https://github.com/stevenew95/ElsExt/wiki).
 
 ```xml
 <EXT>
@@ -215,6 +215,14 @@ msbuild ElsExt.vcxproj -p:Configuration=Release -p:Platform=x64
 
 The output is written to `bin\ElsExt.asi`. The module links the C runtime statically and has no redistributable dependency.
 
+### Packaging
+
+```
+powershell -File tools\package.ps1 -Version 1.0.0
+```
+
+Builds `release\ElsExt-1.0.0.zip` containing `ElsExt.asi`, `ElsExt.ini`, `Installation and Setup.txt`, `examples\example.xml` and `LICENSE.txt`.
+
 ### Verification tools
 
 Run `tools\build.bat` to build the following into `obj\tools`.
@@ -260,8 +268,9 @@ Functions are hooked with MinHook. Most hooks adjust the ELS per-vehicle state f
 | `src/Diagnostics.*` | Fault reporting and script monitoring |
 | `src/Vcf.*` | Vehicle configuration validation and `<EXT>` reader |
 | `src/Settings.*` | `ElsExt.ini` reader |
-| `examples/example.xml` | Example vehicle configuration file with an `<EXT>` block |
-| `tools/` | Verification tools and layout generator |
+| `examples/example.xml` | Example `<EXT>` block and where it goes in a vehicle file |
+| `package/` | Files shipped only in the release download |
+| `tools/` | Verification tools, layout generator and release packaging |
 | `third_party/minhook/` | MinHook 1.3.3 |
 
 ### Unloading
