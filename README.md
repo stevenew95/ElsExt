@@ -24,10 +24,10 @@ ElsExt operates entirely in memory. It does not modify, replace or redistribute 
 
 | Feature | Description |
 |---|---|
-| Park patterns | Each vehicle model may define the pattern shown by each light group while the vehicle is [parked](#parked-vehicles). The park pattern replaces the ELS `OutOfVeh` pattern and the active stage preset. Horn and siren-tone patterns retain precedence. |
+| Park patterns | Each vehicle model may define the pattern shown by each light group while the vehicle is [parked](#parked-vehicles). The ELS `OutOfVeh` pattern shows only once the driver gets out; a park pattern starts as soon as the vehicle is parked, with the driver still inside, and replaces `OutOfVeh` when the driver leaves. Horn and siren-tone patterns retain precedence. |
 | Synchronisation | [Parked](#parked-vehicles) vehicles belonging to the same sync group, and within range of one another, flash in step. ElsExt aligns pattern timing only and never changes the pattern a vehicle displays. Vehicles in a group must therefore share the same park patterns to appear synchronised. |
 
-Both features apply whether the driver is in the vehicle or not.
+The driver can stay in the vehicle for both.
 
 ### AI vehicle control
 
@@ -88,7 +88,7 @@ Values outside the stated range are ignored and the default is used.
 
 ## Vehicle Configuration Reference
 
-Per-model behaviour is defined in an `<EXT>` element inside the `<vcfroot>` element of the model's ELS configuration file (`ELS\<pack>\<model>.xml`). ELS ignores this element. Files without it are unaffected.
+Per-model behaviour is defined in an `<EXT>` element inside the `<vcfroot>` element of the model's ELS configuration file (`ELS\<pack>\<model>.xml`). ELS ignores this element. Files without it are unaffected. [examples/example.xml](examples/example.xml) is a complete vehicle file with every `<EXT>` option filled in and commented.
 
 ```xml
 <EXT>
@@ -102,7 +102,7 @@ Per-model behaviour is defined in an `<EXT>` element inside the `<vcfroot>` elem
 
 Park patterns and synchronisation apply to parked vehicles. A vehicle is parked once it has been stationary (below 0.3 m/s) with its emergency lights on for the park delay: the model's `Delay`, or `DelaySeconds` in `ElsExt.ini`. It stops being parked as soon as it moves faster than 1.5 m/s.
 
-A parked vehicle may have its driver in the seat or not. The driver's position affects only which light stages a park pattern can show at; see `<Park>` below.
+The driver can stay in the vehicle. The only difference it makes is which light stages a park pattern shows at; see `<Park>` below.
 
 ### `<Park>`
 
@@ -260,6 +260,7 @@ Functions are hooked with MinHook. Most hooks adjust the ELS per-vehicle state f
 | `src/Diagnostics.*` | Fault reporting and script monitoring |
 | `src/Vcf.*` | Vehicle configuration validation and `<EXT>` reader |
 | `src/Settings.*` | `ElsExt.ini` reader |
+| `examples/example.xml` | Example vehicle configuration file with an `<EXT>` block |
 | `tools/` | Verification tools and layout generator |
 | `third_party/minhook/` | MinHook 1.3.3 |
 

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+	Where the ElsExt settings go in an ELS vehicle file.
+
+	This is not a complete vehicle file, so don't drop it into your ELS folder. Open your car's
+	own file in ELS\<pack>\, paste the <EXT> block inside <vcfroot> after the existing sections,
+	and leave everything else alone. ELS skips over <EXT>, so the file still works without ElsExt.
+-->
+<vcfroot Description="Your vehicle" Author="You">
+
+	<!-- Your existing sections stay exactly as they are:
+	     INTERFACE, EOVERRIDE, MISC, CRUISE, ACORONAS, SOUNDS, WRNL, PRML, SECL -->
+
+	<!-- Added for ElsExt -->
+	<EXT>
+		<!--
+			Pattern each light group shows once the car is parked. Parked means it has been
+			stopped with its lights on for Delay seconds; the driver can stay inside. Leave out
+			Prml, Secl or Wrnl to keep that group on its normal pattern. Delay also decides when
+			the car starts syncing. Without it, DelaySeconds in ElsExt.ini is used.
+		-->
+		<Park Prml="32" Secl="32" Wrnl="2" Delay="2" />
+
+		<!--
+			Parked cars with the same Group flash in step when they're within Radius metres of
+			each other. Give every model in a group the same Park patterns. Without Radius,
+			RadiusMetres in ElsExt.ini is used. Without Group, the car only syncs with its own model.
+		-->
+		<Sync Group="LSPD" Radius="60" />
+
+		<!--
+			Only needed if a plugin you use sets the traffic advisor through ElsExt. Put in the
+			SECL patterns that point left, right and both ways on your lightbar, then remove the
+			comment markers around the line.
+
+		<Advisor Left="0" Right="0" Both="0" />
+		-->
+	</EXT>
+
+</vcfroot>
