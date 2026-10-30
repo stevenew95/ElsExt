@@ -1,0 +1,10 @@
+; ScriptHookV.dll exports used by ElsExt. The build generates an import library from this file,
+; so the ScriptHookV SDK is not required.
+LIBRARY ScriptHookV.dll
+EXPORTS
+    ?nativeInit@@YAX_K@Z
+    ?nativePush64@@YAX_K@Z
+    ?nativeCall@@YAPEA_KXZ
+    ?scriptRegister@@YAXPEAUHINSTANCE__@@P6AXXZ@Z
+    ?scriptUnregister@@YAXPEAUHINSTANCE__@@@Z
+    ?scriptWait@@YAXK@Z
